@@ -14,11 +14,15 @@ numpy
 ## Setting
 You cat set files and datasets as described below.
 
-Datas are stored in Data/Data*/ per categorized class.
+Datas are stored in "Data/Data*/" per categorized class.
 
-For example, image files labeled as class1 are located in Data/Data1,
+For example, image files labeled as class1 are located in "Data/Data1",
 
-images labeled as class2 are in Data/Data2.
+images labeled as class2 are in "Data/Data2".
+
+And, you set "Class_label" in "config.py" to class name which is contained in each image path.
+
+e.g. If training file path is "Data/Data1/salamander.jpg", you can set  "salamander" or "Data1" as one of "Class_label".
 ```
 cnn_tensorflow --- Data --- Data1 --- *.jpg
                 |        |- Data2 --- *.jpg
@@ -63,3 +67,9 @@ data augmentation.
 You can use VGG16 model or FCN model.
 
 In main.py, you can change "from vgg16 import NNN" to "from fcn import NNN".
+
+
+## Variable Input size
+you can use variable input size image.
+
+If you need, please change "Variable_input" in "config.py" to "True" and set "Max_side".
