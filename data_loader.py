@@ -57,6 +57,8 @@ class DataLoader():
             print(' - {} - {} datas -> loaded {}'.format(dir_path, len(files), load_count))
 
         self.display_gt_statistic()
+
+        self.check_data_num()
                 
         if self.phase == 'Train':
             self.data_augmentation(h_flip=cf.Horizontal_flip, v_flip=cf.Vertical_flip)
@@ -67,6 +69,9 @@ class DataLoader():
         self.set_index(shuffle=shuffle)
                 
 
+    def check_data_num(self):
+        if self.phase == 'Train' and len(self.datas) < 1:
+            raise Exception("Training data not found!")
         
     def display_data_total(self):
 
