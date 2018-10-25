@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+
 import tensorflow as tf
 import config as cf
 import argparse
-import os
 import cv2
 import numpy as np
 import glob
@@ -51,7 +53,6 @@ class Main_train():
         ## Prepare Training data
         dl = DataLoader(phase='Train', shuffle=True)
 
-<<<<<<< HEAD
         ## Prepare Test data
         dl_test = DataLoader(phase='Test', shuffle=True)
         if not cf.Variable_input:
@@ -59,13 +60,10 @@ class Main_train():
             
         test_data_num = dl_test.get_data_num()
         
-=======
         ## PRepare Test data
         dl_test = DataLoader(phase='Test', shuffle=True)
         test_imgs, test_gts = dl_test.get_minibatch(shuffle=False)
 
-
->>>>>>> origin/master
         ## Start Train
         print('\n--------\nTraining Start!!')
 
