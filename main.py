@@ -109,7 +109,7 @@ class Main_train():
                     
             ## Save trained model
             saver.save(sess, cf.Save_path)
-            print('\ntrained model was stored >> ', cf.Save_dir)
+            print('\ntrained model was stored >> ', cf.Save_path)
 
 
 class Main_test():

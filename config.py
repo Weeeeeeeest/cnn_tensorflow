@@ -57,7 +57,7 @@ Save_iteration_disp = True
 
 ## Save config
 Save_dir = 'models'
-Model_name = 'model.h5'
+Model_name = 'model'
 Save_path = os.path.join(Save_dir, Model_name)
 
 ## Other config
