@@ -1,14 +1,14 @@
 # cnn_tensorflow
 
-CNN examples implemented with Tensorflow-1.5 (1.8).
+CNN examples implemented with Tensorflow-1.8(maybe you can use any version).
 
 ## Requirement
 
 ```
-Python 3   (because I used os.makedirs(exist_ok) in main.py)
-tensorflow 1.5
-opencv-python
-numpy
+# For CPU only
+$ pip install -r requirements_cpu.txt
+# For GPU
+$ pip install -r requirements_gpu.txt
 ```
 
 ## Setting
