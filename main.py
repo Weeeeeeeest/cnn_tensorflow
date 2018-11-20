@@ -81,11 +81,11 @@ class Main_train():
                         con += '>'
                 con += "| Iteration:{}, TrainL:{:.9f}, TrainA:{:.9f}".format(ite, trainL, trainA)
 
-                if ite % cf.Save_train_step == 0 or ite == 1:
+                if ite % cf.Save_train_step == 0 or ite == 1 or ite == cf.Iteration:
                     saver.save(sess, cf.Save_path)
 
-                    test_num = cf.Test_Minibatch if cf.Test_Minibatch is not None else dl_test.mb
-                    accuracy_count = 0.
+                    test_num = dl_test.mb
+                    #accuracy_count = 0.
                     test_x, test_y = dl_test.get_minibatch(shuffle=True)
                     """
                     for test_ind in range(test_num):
