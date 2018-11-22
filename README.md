@@ -24,14 +24,8 @@ And, you set "Class_label" in "config.py" to class name which is contained in ea
 
 e.g. If training file path is "Data/Data1/salamander.jpg", you can set  "salamander" or "Data1" as one of "Class_label".
 ```
-cnn_tensorflow --- Data --- Data1 --- *.jpg
+cnn_tensorflow --- Data --- Data1 --- *.jpg(or png)
                 |        |- Data2 --- *.jpg
-                |
-                |- config.py
-                |- data_loader.py
-                |- fcn.py
-                |- main.py
-                |- vgg16.py
 ```
 
 ## Training
@@ -44,8 +38,11 @@ You can change "Class_label", "Train_dirs" and "Test_dirs" in config.py.
 "Class_label" is sets of directory names but not directory path.
 
 If you train with your original dataset, please type below command.
-```
-python main.py --train
+
+```bash
+$ python main.py --train
+# For tf.contrib.slim
+$ python main_slim.py --train
 ```
 
 ## Test
@@ -54,8 +51,11 @@ Whene testing, you change config.py.
 The datails are as Training.
 
 If you test with your original dataset, please type below command.
-```
-python main.py --test
+
+```bash
+$ python main.py --test
+# For tf.contrib.slim
+$ python main_slim.py --test
 ```
 
 ## config.py
