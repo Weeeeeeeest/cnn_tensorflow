@@ -29,18 +29,11 @@ class Main_train():
 
         ## Load network model
         predictions = Model(x=X)
-        #logits = model.forward(X)
-        #pred = tf.nn.softmax(train_model)
 
         ## Loss, Optimizer
-        #loss_opt = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits=logits, labels=Y))
-        #loss = tf.reduce_mean(slim.losses.softmax_cross_entropy(predictions, Y))
         loss = tf.losses.softmax_cross_entropy(Y, predictions)
         opt = tf.train.AdamOptimizer(learning_rate=cf.Learning_rate)
-        #total_loss = slim.losses.get_total_loss()
-        #total_loss = tf.losses.get_total_loss()
         train_opt = slim.learning.create_train_op(loss, opt)
-        #train_opt = opt.minimize(loss_opt)
 
         ## Accuracy
         correct_pred = tf.equal(tf.argmax(predictions, 1), tf.argmax(Y, 1))
@@ -51,7 +44,6 @@ class Main_train():
         
         ## Prepare Test data
         dl_test = DataLoader(phase='Test', shuffle=True)
-        test_imgs, test_gts = dl_test.get_minibatch(shuffle=False)
 
         ## Start Train
         print('--------\nTraining Start!!')
@@ -63,8 +55,6 @@ class Main_train():
         with tf.Session(config=config) as sess:
             sess.run(tf.global_variables_initializer())
 
-            #saver = tf.train.Saver(max_to_keep=100)
-            #self.net.load('pretrained_model/VGG_imagenet.ckpt', sess, saver, True)
             fname = os.path.join(cf.Save_dir, 'loss.txt')
             f = open(fname, 'w')
             f.write("Step,Train_loss,Test_loss" + os.linesep)
