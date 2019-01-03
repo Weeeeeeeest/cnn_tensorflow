@@ -15,11 +15,13 @@ class DataLoader():
         self.last_mb = 0
         self.phase = phase
         self.gt_count = [0 for _ in range(cf.Class_num)]
-        self.prepare_datas(shuffle=shuffle)
         if phase == 'Train':
             self.mb = cf.Minibatch
         elif phase == 'Test':
-            self.mb = 1
+            self.mb = cf.Test_Minibatch
+        else:
+            raise Exception("DataLoader phase invalid >>", phase)
+        self.prepare_datas(shuffle=shuffle)
                 
     def prepare_datas(self, shuffle=True):
         if self.phase == 'Train':
@@ -49,8 +51,11 @@ class DataLoader():
                 load_count += 1
             print(' - {} - {} datas -> loaded {}'.format(dir_path, len(files), load_count))
 
+        self.data_n = len(self.datas)
+        if self.mb is None:
+            self.mb = self.data_n
         self.display_gt_statistic()
-                
+        
         if self.phase == 'Train':
             self.data_augmentation()
             self.display_gt_statistic()
@@ -67,7 +72,6 @@ class DataLoader():
         return self.data_n
     
     def set_index(self, shuffle=True):
-        self.data_n = len(self.datas)
         self.indices = np.arange(self.data_n)
         if shuffle:
             np.random.seed(cf.Random_seed)
@@ -100,8 +104,8 @@ class DataLoader():
         
         for i, ind in enumerate(self.mb_inds):
             data = self.datas[ind]
-            img = load_image(data['img_path'])
-            img = image_dataAugment(img, data)
+            img, img_info = load_image(data['img_path'])
+            img, img_info = image_dataAugment(img, data)
             if cf.Channel == 1:
                 img = cv2.cvtColor(cv2.GRAY_SCALE)
                 img = expand_imds(img, axis=-1)
@@ -168,27 +172,30 @@ def get_gt(img_name):
             return ind
     raise Exception("Class label Error {}".format(img_name))
     
-## Below functions are for data augmentation
+
 def load_image(img_name):
     img = cv2.imread(img_name)
     if img is None:
         raise Exception('file not found: {}'.format(img_name))
-
+        
+    h, w = img.shape[:2]
+    
     if cf.Variable_input:
         longer_side = np.max(img.shape[:2])
-        scaled_ratio = 1. * cf.Max_side / longer_side
-        scaled_height = np.min([img.shape[0] * scaled_ratio, cf.Max_side]).astype(np.int)
-        scaled_width = np.min([img.shape[1] * scaled_ratio, cf.Max_side]).astype(np.int)
-        img = cv2.resize(img, (scaled_width, scaled_height))
+        r = 1. * cf.Max_side / longer_side
+        sh = np.min([h * r, cf.Max_side]).astype(np.int)
+        sw = np.min([w * r, cf.Max_side]).astype(np.int)
+        img = cv2.resize(img, (sw, sh))
     else:
-        scaled_height = cf.Height
-        scaled_width = cf.Width
-        img = cv2.resize(img, (scaled_width, scaled_height))
+        sh = cf.Height
+        sw = cf.Width
+        img = cv2.resize(img, (sw, sh))
 
     img = img[:, :, (2,1,0)]
     img = img / 255.
-    return img
 
+    img_info = {'h':h, 'w':w, 'r':r, 'sh':sh, 'sw':sw}
+    return img, img_info
 
 
 def image_dataAugment(image, data):
@@ -212,4 +219,6 @@ def image_dataAugment(image, data):
         temp = h
         h = w
         w = temp
-    return image
+    img_info = {'h':h, 'w':w}
+    return image, img_info
+

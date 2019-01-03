@@ -138,7 +138,7 @@ class Main_test():
 
             img_paths = get_imagelist()
             for img_path in img_paths:
-                img = load_image(img_path)
+                img, img_info = load_image(img_path)
                 img = np.expand_dims(img, axis=0)
                 gt = get_gt(img_path)
                 pred = logits.eval(feed_dict={X: img, keep_prob: 1.0})[0]
