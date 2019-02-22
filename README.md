@@ -1,3 +1,5 @@
+# 最近こっちに統合してます >> https://github.com/yoyoyo-yo/DeepLearningMugenKnock
+
 # cnn_tensorflow
 
 CNN examples implemented with Tensorflow-1.8(maybe you can use any version).
